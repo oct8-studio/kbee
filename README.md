@@ -61,6 +61,7 @@ shop-kb/
 |-------|-------|
 | `kbee` | The one command: build, init, ask, sync, status |
 | `kbee-init` | Set up a KB, or join your team's existing one |
+| `kbee-audit` | Adopt and fix a KB you already have, in any format |
 | `kbee-feature` | Run all the stages below, start to finish |
 | `kbee-spec` | 1. Spec, including the affected repos and contracts |
 | `kbee-plan` | 2. Tasks per repo, producers before consumers |

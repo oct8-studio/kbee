@@ -21,7 +21,7 @@ npx skills add oct8-studio/kbee --list
 npx skills update
 ```
 
-Install all nine skills. `kbee-feature` calls the stage skills by name. If one is missing, it reads that skill's steps from the sibling folder.
+Install all 11 skills: `kbee`, `kbee-audit`, `kbee-feature`, `kbee-implement`, `kbee-init`, `kbee-kb`, `kbee-plan`, `kbee-review`, `kbee-ship`, `kbee-spec` and `kbee-sync`. `kbee` and `kbee-feature` call the other skills by name. If one is missing, they read that skill's steps from the sibling folder.
 
 ## Tested agents
 
@@ -48,13 +48,13 @@ Other agents in the `skills` CLI list (for example `gemini-cli`, `windsurf`, `op
 
 | Command | Does |
 |---------|------|
-| `find [dir]` | Locates the KB. |
+| `find [dir]` | Locates the KB, and says whether it's a `skeleton` (a manifest with no facts yet). |
 | `resolve <kb> <repo>` | Gives a repo's local path. |
 | `validate <kb>` | Checks every citation. |
 | `show <kb> "<citation>"` | Prints the cited lines. |
 | `stale <kb> [--no-fetch]` | Lists out-of-date repos and the KB files affected. |
 | `set-synced <kb> <repo> <sha>` | Records a verified sync. |
-| `rules <kb>` | Checks whether the KB was built with older kbee rules. |
+| `rules [kb]` | Checks whether the KB was built with older kbee rules. Without a KB, prints the current rules version. |
 | `set-rules <kb> <version>` | Records a rules upgrade. |
 
 Without Node, the skills tell the agent how to do each step with plain git. It's slower, but works the same.

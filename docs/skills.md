@@ -36,6 +36,7 @@ Sets up a knowledge base, or joins an existing one.
 - **Writes:** the whole KB (see [Knowledge base format](kb-format.md)). If you allow it, it also adds a pointer block to each code repo's `AGENTS.md`.
 - **You approve:** one summary of the whole KB, the push, and each pointer.
 - **Joining an existing KB:** it clones or finds the listed repos, records your local paths in `.kbee.local.json`, and reports what's stale. It doesn't rebuild anything.
+- **A skeleton KB** (a `manifest.json` with no facts yet, for example one a project scaffolder pre-filled with an entry per package): it doesn't ask new or existing, where, or which repos. It builds the KB in place from the manifest's entries. See [Pre-filling a KB from a scaffolder](kb-format.md#pre-filling-a-kb-from-a-scaffolder).
 
 **Example prompts:** "set up kbee for these repos: …", "join our KB at git@github.com:acme/shop-kb.git".
 

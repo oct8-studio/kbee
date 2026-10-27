@@ -106,6 +106,32 @@ Hand edits are fine. Follow the same rules the agents follow (they're in the KB'
 
 Set `"location": "in-repo"` in `manifest.json`, with the KB in `kb/` at the git root. Every entry must live in that git repo (`validate` reports `IN_REPO_SPLIT` otherwise). `pathHint` is relative to `kb/`, for example `../apps/api`. `syncedSha` stays `null`: a page is stale when a file it cites changed in a commit after the page's own last commit.
 
+## Pre-filling a KB from a scaffolder
+
+A tool that generates projects (a monorepo scaffolder, for example) can set kbee up ahead of time by writing just `kb/manifest.json`. That's a **skeleton** KB: a valid manifest with no fact files yet. `find` reports it as `"skeleton": true`, and the next `/kbee` or `/kbee init` builds the KB in place from your entries, without asking new-or-join, where the KB goes, or for repo links. `/kbee audit` hands a skeleton to init rather than listing everything that's missing.
+
+Write this at `<git root>/kb/manifest.json`, one entry per package or app:
+
+```json
+{
+  "kbeeVersion": 1,
+  "mode": "direct",
+  "location": "in-repo",
+  "rulesVersion": 2,
+  "repos": [
+    { "name": "shop-types", "url": null, "defaultBranch": "main", "pathHint": "../packages/types", "syncedSha": null },
+    { "name": "shop-api", "url": null, "defaultBranch": "main", "pathHint": "../apps/api", "syncedSha": null },
+    { "name": "shop-web", "url": null, "defaultBranch": "main", "pathHint": "../apps/web", "syncedSha": null }
+  ]
+}
+```
+
+- **Required per entry:** `name` (matching `^[a-z0-9][a-z0-9._-]*$`, unique), `defaultBranch`, and `pathHint`, relative to `kb/`. Keep `syncedSha` `null`: an in-repo KB never sets it. `url` is optional.
+- **Entry order:** kbee keeps your entries, their names and `pathHint`s, and their order. List producers before consumers (shared packages and types, then services and APIs, then apps), the order kbee plans changes in.
+- **`rulesVersion`:** optional. If you set it, use the current version: `node <skill-dir>/scripts/kbee-tool.mjs rules` with no KB prints `{"currentRulesVersion": 2}`. Without Node, it's the highest `## vN` in `references/rules-changelog.md`. kbee-init records it either way.
+- **Leave the rest to kbee.** Don't write `system-map.md`, `repos/`, `contracts/` or `decisions/`: any of them makes the KB count as built, not a skeleton. kbee writes them, with in-repo citations without a commit (`[repo:path:line]`) that it verifies against the code. A `README.md` from [templates/kb/README.md](../shared/templates/kb/README.md), a `.gitignore` with `.kbee.local.json`, and `features/.gitkeep` are fine to include.
+- Check your output with `node <skill-dir>/scripts/kbee-tool.mjs validate kb` (manifest errors) and `node <skill-dir>/scripts/kbee-tool.mjs find` (`"skeleton": true`).
+
 ## Team docs
 
 `"teamDocs"` in `manifest.json` lists your own docs that kbee looks after, relative to the KB folder, for example `["use-cases/place-an-order.md"]`. `/kbee audit` adds them when you keep an existing KB alongside kbee's files. They don't need kbee citations. kbee watches the file paths they mention in backticks or relative links, flags them when those files change, and proposes fixes for your yes.
