@@ -285,6 +285,17 @@ function factFiles(kbDir) {
   return out;
 }
 
+// A skeleton is a valid manifest with no fact files yet, for example one a project scaffolder
+// pre-filled with an entry per package. kbee-init builds it in place instead of asking new-or-join.
+export function isSkeletonKb(kbDir) {
+  return factFiles(kbDir).length === 0;
+}
+
+export function findReport(dir) {
+  const kbDir = findKb(dir);
+  return { kbDir, skeleton: kbDir ? isSkeletonKb(kbDir) : false, candidates: findKbCandidates(dir), foreign: findForeignKbs(dir) };
+}
+
 const rel = (kbDir, file) => path.relative(kbDir, file).split(path.sep).join('/');
 
 export function validateKb(kbDir) {
@@ -551,11 +562,11 @@ export function setRulesVersion(kbDir, version) {
 }
 
 const COMMANDS = {
-  rules: ([kbDir]) => rulesStatus(kbDir),
+  rules: ([kbDir]) => (kbDir === undefined ? { currentRulesVersion: RULES_VERSION } : rulesStatus(kbDir)),
   'set-rules': ([kbDir, version]) => setRulesVersion(kbDir, version),
   stale: ([kbDir, ...flags]) => staleness(kbDir, { fetch: !flags.includes('--no-fetch') }),
   'set-synced': ([kbDir, name, sha]) => setSynced(kbDir, name, sha),
-  find: ([dir = process.cwd()]) => ({ kbDir: findKb(dir), candidates: findKbCandidates(dir), foreign: findForeignKbs(dir) }),
+  find: ([dir = process.cwd()]) => findReport(dir),
   resolve: ([kbDir, name]) => {
     const dir = resolveRepo(kbDir, name);
     return { path: dir, gitRoot: gitRoot(dir) };
