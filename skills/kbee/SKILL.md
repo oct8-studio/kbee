@@ -17,7 +17,7 @@ This is the only command users need. Work out what they want, then follow the ma
 | `/kbee sync` ("update the KB", "upgrade the KB", "PRs merged") | **kbee-sync** |
 | `/kbee` alone, or "status" | Show the KB location, stale repos, unfinished features from `features/*/status.json` (for an in-repo KB, also from the `kbee/*` branches, see `references/kb-layout.md`), and whether the rules are outdated. Then offer the next step |
 
-If there's **no KB** yet and the user asked to build, say so in one line, set one up first, then continue with the build. Don't make them start over. If `find` lists a **foreign** KB (a hand-written one without a kbee manifest), set it up with **kbee-audit**. Otherwise use **kbee-init**.
+If there's **no KB** yet and the user asked to build, say so in one line, set one up first, then continue with the build. Don't make them start over. A **skeleton** KB (`find` reports `"skeleton": true`: a manifest a project scaffolder pre-filled, with no fact files yet) counts as no KB: run **kbee-init**, which builds it in place without asking new or join. Do the same for `/kbee`, `/kbee audit`, `/kbee ask` and `/kbee sync` on a skeleton. If `find` lists a **foreign** KB (a hand-written one without a kbee manifest), set it up with **kbee-audit**. Otherwise use **kbee-init**.
 
 ## What `/kbee build` accepts
 

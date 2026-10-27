@@ -22,7 +22,7 @@ Progress lives in `features/<slug>/status.json` ([references/kb-layout.md](refer
 `<skill-dir>` below is the folder containing this SKILL.md. If Node is not available, use the manual fallbacks in `references/accuracy-rules.md`.
 ## 0. Find the KB and check it
 
-- Find the KB ([references/kb-discovery.md](references/kb-discovery.md)). If there's **no KB**, say so, offer **kbee-init**, and stop.
+- Find the KB ([references/kb-discovery.md](references/kb-discovery.md)). If there's **no KB**, or only a **skeleton** (`find` reports `"skeleton": true`), say so, offer **kbee-init** (which builds a skeleton in place), and stop.
 - Run the gap check: `node <skill-dir>/scripts/kbee-tool.mjs stale <kb>` (without Node, use the manual fallback in [references/accuracy-rules.md](references/accuracy-rules.md)). Report stale or missing repos in one or two lines, and offer **kbee-sync** before starting.
 - Run `node <skill-dir>/scripts/kbee-tool.mjs rules <kb>`. If the KB was built with older kbee rules, mention it once and offer the **kbee-sync** upgrade mode. Don't block on it.
 

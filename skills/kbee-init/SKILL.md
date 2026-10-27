@@ -13,7 +13,9 @@ The helper is `<skill-dir>/scripts/kbee-tool.mjs`, where `<skill-dir>` is the fo
 
 ## 1. New KB or existing KB?
 
-First run `node <skill-dir>/scripts/kbee-tool.mjs find`. If it lists a **foreign** KB (a hand-written knowledge base without a kbee manifest), or you see one yourself, say so and hand over to **kbee-audit**, which adopts it instead of building a second KB.
+First run `node <skill-dir>/scripts/kbee-tool.mjs find`. If it reports `"skeleton": true` (a `manifest.json` with no `system-map.md` and no other fact files yet, as a project scaffolder writes), go to [Building a skeleton KB](#building-a-skeleton-kb) **without asking new or join**.
+
+If it lists a **foreign** KB (a hand-written knowledge base without a kbee manifest), or you see one yourself, say so and hand over to **kbee-audit**, which adopts it instead of building a second KB.
 
 Otherwise ask the user one question: create a new KB, or join an **existing KB**?
 
@@ -111,6 +113,15 @@ Commit the KB (`kb: initial knowledge base`). For an in-repo KB, the commit goes
 ## 8. Offer the pointer
 
 For each code repo, offer to add the **pointer** block from [templates/pointer-snippet.md](templates/pointer-snippet.md) to its `AGENTS.md` (create the file if needed), with `{{KB_PATH}}` set to the KB's path relative to that repo. Do this **only with permission**, per repo, and commit nothing in a code repo without asking. Agents opened in that repo will then find the KB.
+
+## Building a skeleton KB
+
+A skeleton is a KB folder that holds `manifest.json` (and perhaps a `README.md` or `.gitignore`) but no fact files. A scaffolder usually pre-fills it with one entry per package. Don't ask whether to create or join, where the KB goes, or for repo links: the manifest already answers those. Build it in place:
+
+1. Run `node <skill-dir>/scripts/kbee-tool.mjs validate <kb>` to check the manifest. For each entry, `node <skill-dir>/scripts/kbee-tool.mjs resolve <kb> <repo>` must find the folder; if one is missing, say which and ask whether to fix its `pathHint` or drop the entry.
+2. The entries keep their name, pathHint, `url` and `defaultBranch`, and their order. Don't rename, merge or add entries without asking. If you spot a package the manifest left out, mention it in the summary as an offer.
+3. Fill in everything else as a new KB would: keep `location` and `mode` if set (if `location` is missing and every entry is in the KB's git repo, set `"location": "in-repo"`), set `syncedSha` per step 4, and set `rulesVersion` with `set-rules`. Keep any `README.md` the scaffolder wrote if it already follows [templates/kb/README.md](templates/kb/README.md); otherwise write the template.
+4. Run steps 3 to 8 as for a new KB: scan, write, verify, one summary, commit, pointer. For an in-repo KB, work on the default branch as step 2b says, and write the commit-less citations yourself.
 
 ## Joining an existing KB
 
