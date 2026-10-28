@@ -56,6 +56,7 @@ Open the agent in `$MONO`. For 10d, build a second copy without the `kb` line. T
 | 10c | Reset, run 10a again, and answer **rewrite**. | `kb/` follows kbee's layout. The walkthrough survives under `kb/flows/`, linked from `system-map.md`. `validate` is clean. |
 | 10d | `/kbee init` in the monorepo without `kb/`. | It treats `apps/api`, `apps/web`, `packages/types` as entries, **asks** where the KB goes, and suggests `kb/` inside the repo. Citations have no commit. |
 | 10e | After 10b, `/kbee build "add order cancellation"`. | The spec stage creates `kbee/order-cancellation` and commits the feature records there. The plan orders packages types → api → web. Build makes **one** branch, and ship proposes **one** PR. The pre-push summary lists the KB changes, and the PR contains them. No `pending.md`. |
+| 10f | In a second copy without `kb/`, write only `kb/manifest.json` (`kbeeVersion` 1, `"location": "in-repo"`, entries `shop-types` → `../packages/types`, `shop-api` → `../apps/api`, `shop-web` → `../apps/web`, `syncedSha` null), commit it, then `/kbee init`. | `find` reports `"skeleton": true`. It doesn't ask new-or-join, where the KB goes, or for repo links. It builds the KB in `kb/` keeping the three entries' names, `pathHint`s and order, sets `rulesVersion`, and `validate` is clean. `/kbee audit` on the same skeleton hands over to init instead of listing missing files. |
 
 ## Results
 

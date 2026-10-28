@@ -17,7 +17,7 @@ Work the project out yourself. Don't ask the user what format their docs are in 
 
 Run `node <skill-dir>/scripts/kbee-tool.mjs find` from the project, then look further yourself. You're looking for one of three things:
 
-- **A kbee KB:** `find` returns `kbDir` (a valid `manifest.json`, in its own repo or in-repo at `kb/`).
+- **A kbee KB:** `find` returns `kbDir` (a valid `manifest.json`, in its own repo or in-repo at `kb/`). If it also reports `"skeleton": true` (a manifest with no fact files yet, as a project scaffolder writes), there's nothing to audit: say so in one line and hand over to **kbee-init**, which builds the KB in place from the manifest's entries. Don't report the missing files one by one.
 - **A foreign KB:** a hand-written knowledge base without a kbee manifest. `find` lists likely folders under `foreign`, but judge by content, not only by name: pages per table, route, screen or service, architecture notes, end-to-end walkthroughs. It can sit at the root of a monorepo, in `docs/`, or in its own repo next to the code.
 - **Scattered knowledge:** no KB folder, only `CLAUDE.md`, `AGENTS.md`, READMEs per package, ADRs, or a `docs/` folder.
 

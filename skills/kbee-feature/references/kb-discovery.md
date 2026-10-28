@@ -19,6 +19,14 @@ Search in this order, and stop at the first folder whose `manifest.json` is vali
 
 If the user names a KB path or URL, use that instead.
 
+## Skeleton KBs
+
+A **skeleton** is a valid `manifest.json` with no fact files yet: no `system-map.md`, and nothing under `repos/`, `contracts/` or `decisions/`. Project scaffolders write one, pre-filled with an entry per package, so kbee knows the repos before anyone runs it. `find` reports it as `"skeleton": true`.
+
+A skeleton is not a KB to read yet. Treat it like **no KB**, except that **kbee-init** builds it in place from the manifest's entries, without asking where it goes or which repos it covers.
+
+## Nothing found
+
 If no KB is found but there's a **foreign** KB (from `find`, or one you spot yourself), say so in one line and offer **kbee-audit**, which adopts it. Otherwise say there's no KB and offer **kbee-init**. Never invent a KB, and never write KB files outside a real KB folder.
 
 ## Pointer block
